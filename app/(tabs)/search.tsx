@@ -9,6 +9,7 @@ import {
   ActivityIndicator,
   Platform
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { Search as SearchIcon, X, MapPin, Map } from 'lucide-react-native';
 import { useTranslation } from '@/hooks/useTranslation';
@@ -112,7 +113,8 @@ export default function SearchScreen() {
     : 'Select City';
 
   return (
-    <View style={styles.container}>
+    <View style={styles.background}>
+      <SafeAreaView style={styles.container} edges={['top']}>
       <View style={styles.headerContainer}>
         <TouchableOpacity 
           style={styles.cityContainer}
@@ -237,11 +239,16 @@ export default function SearchScreen() {
         visible={showCityModal}
         onClose={() => setShowCityModal(false)}
       />
+      </SafeAreaView>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  background: {
+    flex: 1,
+    backgroundColor: '#FFFFFF',
+  },
   container: {
     flex: 1,
     backgroundColor: '#FFFFFF',

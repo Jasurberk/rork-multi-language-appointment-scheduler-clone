@@ -5,8 +5,8 @@ import {
   StyleSheet, 
   FlatList,
   TouchableOpacity,
-
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { useTranslation } from '@/hooks/useTranslation';
 import { useAppStore } from '@/hooks/useAppStore';
@@ -38,7 +38,8 @@ export default function AppointmentsScreen() {
   // If not authenticated and not in guest mode, show login prompt
   if (!isAuthenticated && !isGuestMode) {
     return (
-      <View style={styles.notAuthContainer}>
+      <View style={styles.background}>
+        <SafeAreaView style={styles.notAuthContainer} edges={['top']}>
         <Text style={styles.notAuthTitle}>{t.appointments.noAppointments}</Text>
         <Text style={styles.notAuthText}>
           Please login or register to view and manage your appointments
@@ -48,6 +49,7 @@ export default function AppointmentsScreen() {
           onPress={handleLogin}
           style={styles.loginButton}
         />
+        </SafeAreaView>
       </View>
     );
   }
@@ -55,7 +57,8 @@ export default function AppointmentsScreen() {
   // If in guest mode, show guest mode message
   if (isGuestMode) {
     return (
-      <View style={styles.notAuthContainer}>
+      <View style={styles.background}>
+        <SafeAreaView style={styles.notAuthContainer} edges={['top']}>
         <Text style={styles.notAuthTitle}>Guest Mode</Text>
         <Text style={styles.notAuthText}>
           Appointments are not available in guest mode. Please login or register to book and manage appointments.
@@ -65,12 +68,14 @@ export default function AppointmentsScreen() {
           onPress={handleLogin}
           style={styles.loginButton}
         />
+        </SafeAreaView>
       </View>
     );
   }
   
   return (
-    <View style={styles.container}>
+    <View style={styles.background}>
+      <SafeAreaView style={styles.container} edges={['top']}>
       <View style={styles.tabsContainer}>
         <TouchableOpacity
           style={[styles.tab, activeTab === 'upcoming' && styles.activeTab]}
@@ -121,11 +126,16 @@ export default function AppointmentsScreen() {
           <Text style={styles.emptyText}>{t.appointments.noAppointments}</Text>
         </View>
       )}
+      </SafeAreaView>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  background: {
+    flex: 1,
+    backgroundColor: '#FFFFFF',
+  },
   container: {
     flex: 1,
     backgroundColor: '#FFFFFF',
