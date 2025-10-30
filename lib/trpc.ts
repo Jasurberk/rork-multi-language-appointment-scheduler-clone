@@ -20,12 +20,11 @@ export const trpcClient = trpc.createClient({
       url: `${getBaseUrl()}/api/trpc`,
       transformer: superjson,
       fetch: (url, options) => {
-        // Create timeout controller
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+        const timeoutId = setTimeout(() => controller.abort(), 10000);
         
-        return fetch(url, {
-          ...options,
+        return fetch(url.toString(), {
+          ...(options as RequestInit),
           signal: controller.signal,
         })
         .then((response) => {
